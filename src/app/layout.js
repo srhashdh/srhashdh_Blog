@@ -12,14 +12,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${inter.className} bg-cyan-100`}>
-        <div className="w-screen min-h-screen bg-[linear-gradient(to_bottom,theme(colors.amber.100)_0%,theme(colors.amber.50)_70%,theme(colors.cyan.100)_100%)]">
-          
-          <div className="h-24">
-            <Navbar />
-          </div>
-          
-          <div className="min-h-[calc(100vh)-6rem]">{children}</div>
-        </div>
+        <div>{children}</div>
       </body>
     </html>
   );

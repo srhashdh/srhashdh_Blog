@@ -9,10 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "framer-motion": "^12.23.5",
+    "@types/three": "^0.178.1",
+    "framer-motion": "^12.23.7",
     "next": "^14.2.29",
     "react": "18",
-    "react-dom": "18"
+    "react-dom": "18",
+    "three": "^0.178.0"
   },
   "devDependencies": {
     "autoprefixer": "10.0.1",
