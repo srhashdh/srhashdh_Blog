@@ -1,54 +1,131 @@
-"use client"
-import Image from "next/image";
+"use client";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/navbar";
-import BubbleLinks from "@/components/BubbleLink";
+import FantasyCardLinks from "@/components/CardLinks";
+import NeonCityBackground from "@/components/NeonCityBackground";
+import ClickRipple from "@/components/ClickRipple";
+import Image from "next/image";
+import TerminalScene from "@/components/terminalScene";
+
+
 const links = [
-    { id: 1, url: "/", title: "Home", color: "bg-transparent" },
-    { id: 2, url: "/about", title: "About", color: "bg-transparent" },
-    { id: 3, url: "/portfolio", title: "Portfolio", color: "bg-transparent" },
-    { id: 4, url: "/contact", title: "Contact", color: "bg-transparent" },
+  { id: 1, url: "#about", title: "About", color: "bg-transparent" },
+  { id: 2, url: "/blog", title: "Blog", color: "bg-transparent" },
+  { id: 3, url: "/resume", title: "Resume", color: "bg-transparent" },
+  { id: 4, url: "/projects", title: "Projects", color: "bg-transparent" },
 ];
-const handleBubblePop = (popData) => {
-  console.log('bubble popped', popData);
-  // popData 包含：
-  // - bubbleId: 泡泡的 ID
-  // - bubbleData: 完整的 link 資料
-  // - timestamp: 點擊時間戳
-  
-  // 你可以在這裡觸發其他組件的動作
-  // 例如：播放音效、改變 3D 模型、更新其他 UI 等
-};
 
 const Homepage = () => {
-  return (
-    <div className="w-screen min-h-screen bg-[linear-gradient(to_bottom,theme(colors.amber.800)_0%,theme(colors.amber.50)_70%,theme(colors.cyan.100)_100%)]">
-      <div className="h-24">
-            <Navbar links = {links}/>
-      </div>
-      <div className="min-h-[calc(100vh)-6rem]">
-        <div className="h-screen flex flex-col lg:flex-row px-4 sm:px-8 md:px-12 lg:px-20 xl:px-48">
-             <BubbleLinks 
-                links={links}
-                onBubblePop={handleBubblePop}
-            /> 
-                {/* TEXT CONTAINER */}
-              <div className="h-1/2 lg:h-full lg:w-1/2 flex flex-col gap-8 items-center justify-center">
-                {/* TITLE */}
-                <h1 className="text-4xl md:text-6xl font-bold">Crafting Digital Experiences, Designing Tomorrow.</h1>
-                {/* DESC */}
-                <p className="md:text-xl">
-                  Wellcome to my digital canvas, where innovation and creativity converge. With a keen eye for aesthetics and a mastery of code, my portfolio showcases a diverse collection of projects that reflect my commitment to excellence.  
-                </p>
-                {/* BUTTONS 
-                <div className="w-full flex gap-4">
-                  <button className="p-4 rounded-lg ring-1 ring-black bg-black text-white">View My Work</button>
-                  <button className="p-4 rounded-lg ring-1 ring-black">Contact Me</button>
-                </div>
-                */}
+  const [showHomeEffects, setShowHomeEffects] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
-              </div>
-        </div>
+  useEffect(() => {
+    // 立即檢查 hash 避免閃爍
+    const hash = window.location.hash;
+    if (hash === "#about") {
+      setShowHomeEffects(false);
+    }
+    setMounted(true);
+
+    const handleScroll = () => {
+      const aboutSection = document.getElementById("about");
+      if (!aboutSection) return;
+
+      const scrollY = window.scrollY;
+      const aboutTop = aboutSection.offsetTop;
+
+      // 當滾動超過 About 區塊頂部 → 關閉首頁特效
+      if (scrollY + 50 >= aboutTop) {
+        setShowHomeEffects(false);
+      } else {
+        setShowHomeEffects(true);
+      }
+    };
+
+    // 初始化時檢查滾動位置
+    const checkInitialPosition = () => {
+      const hash = window.location.hash;
+      if (hash === "#about") {
+        // 如果 URL 有 #about，等待元素載入後滾動過去
+        setTimeout(() => {
+          const aboutSection = document.getElementById("about");
+          if (aboutSection) {
+            window.scrollTo({ top: aboutSection.offsetTop, behavior: "smooth" });
+            setShowHomeEffects(false);
+          }
+        }, 100);
+      } else {
+        // 否則檢查當前滾動位置
+        handleScroll();
+      }
+    };
+
+    checkInitialPosition();
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+
+
+
+  
+  return (
+    <div className="relative w-screen min-h-screen bg-[#050014] text-white overflow-x-hidden z-[0]">
+      {/* === Three.js 粒子城市背景 === */}
+      <div className="fixed inset-0 z-[0]">
+        <NeonCityBackground />
       </div>
+
+      {/* === 光暈層（僅首頁顯示） === */}
+      
+       {showHomeEffects && (
+      <div
+        className="fixed top-1/2 left-1/2 w-[60vw] h-[60vw]
+        -translate-x-1/2 -translate-y-1/4
+        bg-cyan-500 opacity-20 blur-[180px]
+        rounded-full animate-pulse
+        z-[1] pointer-events-none"
+      />
+    )}
+    
+
+      {/* === 導覽列 === */}
+      <div className="h-24 z-1000 relative">
+        <Navbar links={links} />
+      </div>
+
+      {/* === 主角色層 === */}
+      {mounted && showHomeEffects && (<div className="relative w-full h-[calc(100vh-6rem)] flex items-center justify-center z-20">
+        <Image
+          src="/MainPageCharacter.png"
+          alt="MainPageCharacter"
+          width={1200}
+          height={1200}
+  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] max-w-[1000px] h-auto"
+/>
+    
+      </div>
+      )}
+      {/* === About 區塊 === */}
+      <section
+      id="about"
+      className="z-30 w-full min-h-screen items-center justify-center"
+    >
+      {mounted && !showHomeEffects && <TerminalScene />}
+    </section>
+
+      {/* === 卡片層（只在首頁顯示） === */}
+      {mounted && showHomeEffects && (
+        <FantasyCardLinks
+          links={links}
+          className="fixed inset-0 z-[999] transition-opacity duration-700 ease-in-out 
+                     w-full h-full flex items-center justify-center p-4 sm:p-6 md:p-8"
+        />
+      )}
+
+      {/* === 點擊漣漪 === */}
+      <ClickRipple />
     </div>
   );
 };

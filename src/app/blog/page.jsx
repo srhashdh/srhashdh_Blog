@@ -1,7 +1,7 @@
 const AboutPage = () => {
     return (
         <div className="">
-            AboutPage
+            blog
         </div>
     )
 }

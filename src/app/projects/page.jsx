@@ -1,7 +1,7 @@
 const PortFolioPage = () => {
     return (
         <div className="">
-            Portfolio
+            Projects
         </div>
     )
 }
