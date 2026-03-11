@@ -13,7 +13,7 @@ const TerminalScene = () => {
   const router = useRouter()
   // 模擬的檔案系統
   const files = {
-    "name.txt": "Stone",
+    "name.txt": "srhashdh",
     "birth.txt": "04-15 Please Give Me Birthday Gifts",
     "gender.txt": "Hideyoshi!",
     "hobby.txt": "Coding, Fortune-telling, Traveling, Wristwatch",
@@ -29,6 +29,8 @@ const script = [
     { type: "output", text: Object.keys(files).join("   ") },
     { type: "typing", text: "cat name.txt" },
     { type: "output", text: files["name.txt"] },
+    { type: "typing", text: "cat gender.txt"},
+    { type: "output", text: files["gender.txt"]},
     { type: "typing", text: "cat birth.txt" },
     { type: "output", text: files["birth.txt"] },
     { type: "typing", text: "cat hobby.txt" },
@@ -71,7 +73,7 @@ const script = [
 
         if (charIndex < current.text.length - 1) {
           charIndex++;
-          setTimeout(typeStep, 200);
+          setTimeout(typeStep, 300);
         } else {
           charIndex = 0;
           scriptIndex++;
@@ -172,7 +174,7 @@ useEffect(() => {
       onClick={handleClick}
       style={{ outline: 'none' }} 
     >
-      <div className="w-[700px] bg-[#1a1a1a] border border-[#333] rounded-lg shadow-lg overflow-hidden ">
+      <div className="w-[700px] bg-[#1a1a1a] border border-[#333] rounded-lg shadow-lg">
         {/* Header */}
         <div className="bg-[#2b2b2b] h-8 flex items-center px-3 space-x-2">
           <button 
@@ -192,7 +194,8 @@ useEffect(() => {
         {/* Terminal Content */}
         <div
           ref={terminalRef}
-          className="font-mono text-sm p-4 min-h-[400px] max-h-[500px] overflow-y-auto whitespace-pre-wrap leading-relaxed text-gray-100"
+          onWheel={(e) => {e.stopPropagation(); e.preventDefault();}}
+          className="relative font-mono text-sm p-4 min-h-[400px] max-h-[500px] overflow-y-auto whitespace-pre-wrap leading-relaxed text-gray-100 cursor-pointer"
         >
           {lines.map((line, i) => (
             <div

@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Navbar from "@/components/navbar";
-import FantasyCardLinks from "@/components/CardLinks";
+import TarotCardLinks from "@/components/CardLinks";
 import NeonCityBackground from "@/components/NeonCityBackground";
 import ClickRipple from "@/components/ClickRipple";
 import Image from "next/image";
@@ -10,9 +10,10 @@ import TerminalScene from "@/components/terminalScene";
 
 const links = [
   { id: 1, url: "#about", title: "About", color: "bg-transparent" },
-  { id: 2, url: "/blog", title: "Blog", color: "bg-transparent" },
-  { id: 3, url: "/resume", title: "Resume", color: "bg-transparent" },
-  { id: 4, url: "/projects", title: "Projects", color: "bg-transparent" },
+  { id: 2, url: "/learn", title: "Learning", color: "bg-transparent" },
+  { id: 3, url: "/read", title: "Reading", color: "bg-transparent" },
+  { id: 4, url: "/travel", title: "Traveling", color: "bg-transparent" },
+  { id: 5, url: "/observe", title: "Observing", color: "bg-transparent"}
 ];
 
 const Homepage = () => {
@@ -96,17 +97,19 @@ const Homepage = () => {
       </div>
 
       {/* === 主角色層 === */}
+      {/*}
       {mounted && showHomeEffects && (<div className="relative w-full h-[calc(100vh-6rem)] flex items-center justify-center z-20">
         <Image
           src="/MainPageCharacter.png"
           alt="MainPageCharacter"
-          width={1200}
-          height={1200}
-  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] max-w-[1000px] h-auto"
+          width={1500}
+          height={1500}
+  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] max-w-[2000px] h-auto"
 />
     
       </div>
       )}
+      *}
       {/* === About 區塊 === */}
       <section
       id="about"
@@ -117,7 +120,7 @@ const Homepage = () => {
 
       {/* === 卡片層（只在首頁顯示） === */}
       {mounted && showHomeEffects && (
-        <FantasyCardLinks
+        <TarotCardLinks
           links={links}
           className="fixed inset-0 z-[999] transition-opacity duration-700 ease-in-out 
                      w-full h-full flex items-center justify-center p-4 sm:p-6 md:p-8"

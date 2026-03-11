@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  nextjs:
+    build: .
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    volumes:
+      # 掛載當前目錄到容器
+      - .:/app
+      # 保留容器內的 node_modules (避免被本地覆蓋)
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NODE_ENV=development
+      # Next.js 需要這個來監聽所有網路介面
+      - WATCHPACK_POLLING=true
